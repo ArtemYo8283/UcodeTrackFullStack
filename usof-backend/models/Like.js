@@ -1,6 +1,6 @@
-import { pool } from './db.js';
+const db = require('../db.js');
 
-export default class Like
+class Like
 {
 	constructor(author, date, postid, commentid, type)
 	{

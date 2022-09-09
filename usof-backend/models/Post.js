@@ -1,6 +1,6 @@
-import { pool } from './db.js';
+const db = require('../db.js');
 
-export default class Post
+class Post
 {
 	constructor(author, title, date, status, content, categories)
 	{
@@ -28,3 +28,5 @@ export default class Post
 
 	}
 }
+
+module.exports = Post;

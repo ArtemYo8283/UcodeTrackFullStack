@@ -1,5 +1,9 @@
-import fs from 'fs';
-import mysql from 'mysql2';
+const fs = require('fs');
+const mysql = require('mysql2');
+
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
-export const pool = mysql.createConnection(config);
+
+const dbConnection = mysql.createPool(JSON.parse(fs.readFileSync('./config.json', 'utf8')));
+
+module.exports = dbConnection.promise();

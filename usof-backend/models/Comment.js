@@ -1,6 +1,6 @@
-import { pool } from './db.js';
+const db = require('../db.js');
 
-export default class Comment
+class Comment
 {
 	constructor(author, date, content)
 	{

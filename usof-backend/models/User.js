@@ -1,6 +1,6 @@
-import { pool } from './db.js';
+const db = require('../db.js');
 
-export default class User
+class User
 {
 	constructor(login, password, fullName, email, profilepic, rating, role)
 	{
