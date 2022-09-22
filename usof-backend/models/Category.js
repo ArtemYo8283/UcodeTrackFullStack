@@ -1,21 +1,56 @@
-const db = require('../db.js');
+const dbConnection  = require('../db.js');
 
 class Category
 {
-	constructor(title, description)
+	async select_all()
 	{
-		this.id = 0;
-		this.title = title;
-        this.description = description;
+        try {
+            const [row] = await dbConnection.execute("SELECT * FROM `category`");
+            const jsonContent = JSON.stringify(row);
+			return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
 	}
 
-	async save()
+	async select_by_id(id)
+	{
+        try {
+            const [row] = await dbConnection.execute("SELECT * FROM `category` WHERE id = " + id);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
+	}
+
+	async add(body)
+	{
+        try {
+            const [row] = await dbConnection.execute("");
+			const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e);
+        }
+	}
+
+	async update()
 	{
 
 	}
 
-	delete()
+	async delete_by_id(id)
 	{
-
+        try {
+            const [row] = await dbConnection.execute("DELETE FROM `category` WHERE id = " + id);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
 	}
 }
+
+module.exports = new Category();
+

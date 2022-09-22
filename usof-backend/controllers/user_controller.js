@@ -1,33 +1,38 @@
 const dbConnection  = require('../db.js');
 const check_token = require('../utils/check_token.js');
 const check_role = require('../utils/check_role.js');
-const Post = require('../models/Post.js');
+const User = require('../models/User.js');
 
-class PostController {
+class UserController {
     async select_all(req, res, next)
     {
         var access_token = req.params.access_token;
-        res.end(await Post.select_all());
+        res.end(await User.select_all());
     }
     
     async select_by_id(req, res, next)
     {
-        var post_id = req.params.post_id;
+        var user_id = req.params.user_id;
         var access_token = req.params.access_token;
-        res.end(await Post.select_by_id(post_id));
+        res.end(await User.select_by_id(user_id));
+    }
+
+    async update_avatar(req, res, next)
+    {
+        var access_token = req.query.access_token;
     }
 
     async update(req, res, next)
     {
         var access_token = req.params.access_token;
-        var post_id = req.params.post_id;
+        var user_id = req.params.user_id;
     }
 
     async create(req, res, next)
     {
         try {
             var access_token = req.params.access_token;
-            res.end(await Post.add(req.body));
+            res.end(await User.add(req.body));
         } catch (err) {
             next(err);
         }
@@ -36,9 +41,10 @@ class PostController {
     async delete_by_id(req, res, next)
     {
         var access_token = req.params.access_token;
-        var post_id = req.params.post_id;
-        res.end(await Post.delete_by_id(post_id));
+        var user_id = req.params.user_id;
+        res.end(await User.delete_by_id(user_id));
     }
 }
 
-module.exports = new PostController();
+module.exports = new UserController();
+

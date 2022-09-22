@@ -1,27 +1,28 @@
-const db = require('../db.js');
+const dbConnection  = require('../db.js');
 
 class Comment
 {
-	constructor(author, date, content)
+	async select_by_id(id)
 	{
-		this.id = 0;
-		this.author = author;
-        this.date = date;
-        this.content = content;
+        try {
+            const [row] = await dbConnection.execute("SELECT * FROM `user` WHERE id = " + id);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
 	}
 
-	async find(value)
+	async delete_by_id(id)
 	{
-
-	}
-
-	async save()
-	{
-
-	}
-
-	delete()
-	{
-
+        try {
+            const [row] = await dbConnection.execute("DELETE FROM `user` WHERE id = " + id);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
 	}
 }
+
+module.exports = new Comment();
