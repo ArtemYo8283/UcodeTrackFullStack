@@ -19,6 +19,17 @@ class CommentController {
         res.end(await Comment.delete_by_id(comment_id));
     }
 
+    async update(req, res, next)
+    {
+        try {
+            var access_token = req.params.access_token;
+            var comment_id = req.params.comment_id;
+            res.end(await Comment.update(req.body, comment_id));
+        } catch (err) {
+            next(err);
+        }
+    }
+
     async create(req, res, next)
     {
         var access_token = req.params.access_token;

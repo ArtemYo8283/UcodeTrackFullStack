@@ -26,6 +26,17 @@ class Post
         }
 	}
 
+	async update(body, post_id)
+	{
+		try {
+			const [row] = await dbConnection.execute("UPDATE `post` SET `title` = '" + body.title + "', `status` = '" + body.status + "', `content` = '" + body.content + "' WHERE id = " + post_id);
+			const jsonContent = JSON.stringify(row);
+            return jsonContent;
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	async create(body, author_id)
 	{
         try {

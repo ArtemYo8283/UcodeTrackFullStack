@@ -1,6 +1,7 @@
 const dbConnection  = require('../db.js');
 const check_token = require('../utils/check_token.js');
 const check_role = require('../utils/check_role.js');
+const get_userid = require('../utils/get_userid.js');
 const Category = require('../models/Category.js');
 
 class CategoryController {
@@ -19,7 +20,13 @@ class CategoryController {
 
     async update(req, res, next)
     {
-        var access_token = req.params.access_token;
+        try {
+            var access_token = req.params.access_token;
+            var category_id = req.params.category_id;
+            res.end(await Category.update(req.body, category_id));
+        } catch (err) {
+            next(err);
+        }
     }
 
     async create(req, res, next)

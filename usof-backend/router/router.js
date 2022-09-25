@@ -47,7 +47,7 @@ router.get('/posts/:post_id/categories/:access_token', postcontroller.select_cat
 router.get('/posts/:post_id/like/:access_token', likecontroller.select_post_like_by_id);
 router.post('/posts/:access_token', postcontroller.create);
 router.post('/posts/:post_id/like/:access_token', likecontroller.create_post_like);
-router.patch('/posts/:post_id/:access_token');
+router.patch('/posts/:post_id/:access_token', postcontroller.update);
 router.delete('/posts/:post_id/:access_token', postcontroller.delete_by_id);
 router.delete('/posts/:post_id/like/:access_token', likecontroller.delete_post_like_by_id);
 
@@ -56,14 +56,14 @@ router.get('/categories/:access_token', categorycontroller.select_all);
 router.get('/categories/:category_id/:access_token', categorycontroller.select_by_id);
 router.get('/categories/:category_id/posts/:access_token', categorycontroller.select_posts_by_category);
 router.post('/categories/:access_token', categorycontroller.create);
-router.patch('/categories/:category_id/:access_token');
+router.patch('/categories/:category_id/:access_token', categorycontroller.update);
 router.delete('/categories/:category_id/:access_token', categorycontroller.delete_by_id);
 
 //comments
 router.get('/comments/:comment_id/:access_token', commentcontroller.select_by_id);
 router.get('/comments/:comment_id/like/:access_token', likecontroller.select_comment_like_by_id);
 router.post('/comments/:comment_id/like/:access_token', likecontroller.create_comment_like);
-router.patch('/comments/:comment_id/:access_token');
+router.patch('/comments/:comment_id/:access_token', commentcontroller.update);
 router.delete('/comments/:comment_id/:access_token', commentcontroller.delete_by_id);
 router.delete('/comments/:comment_id/like/:access_token', likecontroller.delete_comment_like_by_id);
 

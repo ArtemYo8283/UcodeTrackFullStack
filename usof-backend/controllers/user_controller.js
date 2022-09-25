@@ -18,14 +18,23 @@ class UserController {
     }
 
     async update_avatar(req, res, next)
-    {
-        var access_token = req.query.access_token;
+    {   
+        try {
+            var access_token = req.query.access_token;
+        } catch (err) {
+            next(err);
+        }
     }
 
     async update(req, res, next)
     {
-        var access_token = req.params.access_token;
-        var user_id = req.params.user_id;
+        try {
+            var access_token = req.params.access_token;
+            var user_id = req.params.user_id;
+            res.end(await User.add(req.body, user_id));
+        } catch (err) {
+            next(err);
+        }
     }
 
     async create(req, res, next)

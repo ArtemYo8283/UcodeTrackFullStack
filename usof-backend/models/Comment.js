@@ -25,6 +25,17 @@ class Comment
         }
 	}
 
+	async update(body, comment_id)
+	{
+		try {
+			const [row] = await dbConnection.execute("UPDATE `comment` SET `content` = '" + body.content + "' WHERE id = " + comment_id);
+			const jsonContent = JSON.stringify(row);
+            return jsonContent;
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
     async create(post_id, author_id, body)
     {
         try {

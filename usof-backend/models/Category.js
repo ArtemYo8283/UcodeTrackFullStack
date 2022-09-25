@@ -46,9 +46,15 @@ class Category
         }
 	}
 
-	async update()
+	async update(body, category_id)
 	{
-
+		try {
+			const [row] = await dbConnection.execute("UPDATE `category` SET `title` = '" + body.title + "' , `description` = '" + body.description + "'  WHERE id = " + category_id);
+			const jsonContent = JSON.stringify(row);
+            return jsonContent;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	async delete_by_id(id)

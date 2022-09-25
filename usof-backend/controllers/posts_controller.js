@@ -27,8 +27,13 @@ class PostController {
 
     async update(req, res, next)
     {
-        var access_token = req.params.access_token;
-        var post_id = req.params.post_id;
+        try {
+            var access_token = req.params.access_token;
+            var post_id = req.params.post_id;
+            res.end(await Post.update(req.body, post_id));
+        } catch (err) {
+            next(err);
+        }
     }
 
     async create(req, res, next)

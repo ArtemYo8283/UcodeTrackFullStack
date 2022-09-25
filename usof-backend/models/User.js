@@ -47,9 +47,15 @@ class User
         }
 	}
 
-	async update()
+	async update(body, user_id)
 	{
-
+		try {
+			const [row] = await dbConnection.execute("UPDATE `user` SET `full_name` = '" + body.full_name + "' WHERE id = " + user_id);
+			const jsonContent = JSON.stringify(row);
+            return jsonContent;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	async delete_by_id(id)
