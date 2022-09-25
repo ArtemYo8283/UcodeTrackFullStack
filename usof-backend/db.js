@@ -7,3 +7,4 @@ const config = JSON.parse(fs.readFileSync('./db-config.json', 'utf8'));
 const dbConnection = mysql.createPool(config);
 
 module.exports = dbConnection.promise();
+

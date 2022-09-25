@@ -5,22 +5,19 @@ const get_userid = require('../utils/get_userid.js');
 const Comment = require('../models/Comment.js');
 
 class CommentController {
-    async select_by_id(req, res, next)
-    {    
+    async select_by_id(req, res, next) {    
         var access_token = req.params.access_token;
         var comment_id = req.params.comment_id;
         res.end(await Comment.select_by_id(comment_id));
     }
 
-    async delete_by_id(req, res, next)
-    {
+    async delete_by_id(req, res, next) {
         var access_token = req.params.access_token;
         var comment_id = req.params.comment_id;
         res.end(await Comment.delete_by_id(comment_id));
     }
 
-    async update(req, res, next)
-    {
+    async update(req, res, next) {
         try {
             var access_token = req.params.access_token;
             var comment_id = req.params.comment_id;
@@ -30,8 +27,7 @@ class CommentController {
         }
     }
 
-    async create(req, res, next)
-    {
+    async create(req, res, next) {
         var access_token = req.params.access_token;
         var author_id = await get_userid(access_token);
         var post_id = req.params.post_id;

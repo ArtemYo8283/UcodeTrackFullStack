@@ -4,21 +4,18 @@ const check_role = require('../utils/check_role.js');
 const User = require('../models/User.js');
 
 class UserController {
-    async select_all(req, res, next)
-    {
+    async select_all(req, res, next) {
         var access_token = req.params.access_token;
         res.end(await User.select_all());
     }
     
-    async select_by_id(req, res, next)
-    {
+    async select_by_id(req, res, next) {
         var user_id = req.params.user_id;
         var access_token = req.params.access_token;
         res.end(await User.select_by_id(user_id));
     }
 
-    async update_avatar(req, res, next)
-    {   
+    async update_avatar(req, res, next) {   
         try {
             var access_token = req.query.access_token;
         } catch (err) {
@@ -26,8 +23,7 @@ class UserController {
         }
     }
 
-    async update(req, res, next)
-    {
+    async update(req, res, next) {
         try {
             var access_token = req.params.access_token;
             var user_id = req.params.user_id;
@@ -37,8 +33,7 @@ class UserController {
         }
     }
 
-    async create(req, res, next)
-    {
+    async create(req, res, next) {
         try {
             var access_token = req.params.access_token;
             res.end(await User.add(req.body));
@@ -47,8 +42,7 @@ class UserController {
         }
     }
 
-    async delete_by_id(req, res, next)
-    {
+    async delete_by_id(req, res, next) {
         var access_token = req.params.access_token;
         var user_id = req.params.user_id;
         res.end(await User.delete_by_id(user_id));
@@ -56,4 +50,6 @@ class UserController {
 }
 
 module.exports = new UserController();
+
+
 

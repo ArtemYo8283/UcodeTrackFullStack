@@ -5,28 +5,24 @@ const get_userid = require('../utils/get_userid.js');
 const Post = require('../models/Post.js');
 
 class PostController {
-    async select_all(req, res, next)
-    {
+    async select_all(req, res, next) {
         var access_token = req.params.access_token;
         res.end(await Post.select_all());
     }
     
-    async select_by_id(req, res, next)
-    {
+    async select_by_id(req, res, next) {
         var post_id = req.params.post_id;
         var access_token = req.params.access_token;
         res.end(await Post.select_by_id(post_id));
     }
 
-    async select_category_by_id(req, res, next)
-    {
+    async select_category_by_id(req, res, next) {
         var post_id = req.params.post_id;
         var access_token = req.params.access_token;
         res.end(await Post.select_category_by_id(post_id));
     }
 
-    async update(req, res, next)
-    {
+    async update(req, res, next) {
         try {
             var access_token = req.params.access_token;
             var post_id = req.params.post_id;
@@ -36,8 +32,7 @@ class PostController {
         }
     }
 
-    async create(req, res, next)
-    {
+    async create(req, res, next) {
         try {
             var access_token = req.params.access_token;
             var author_id = await get_userid(access_token);
@@ -47,8 +42,7 @@ class PostController {
         }
     }
 
-    async delete_by_id(req, res, next)
-    {
+    async delete_by_id(req, res, next) {
         var access_token = req.params.access_token;
         var post_id = req.params.post_id;
         res.end(await Post.delete_by_id(post_id));
@@ -56,3 +50,5 @@ class PostController {
 }
 
 module.exports = new PostController();
+
+
