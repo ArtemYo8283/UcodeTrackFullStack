@@ -24,10 +24,21 @@ class Category
         }
 	}
 
-	async add(body)
+	async select_posts_by_category(id)
 	{
         try {
-            const [row] = await dbConnection.execute("");
+            const [row] = await dbConnection.execute("SELECT * FROM post INNER JOIN postcategory ON post.id = postcategory.idPost WHERE idCategory = " + id);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
+	}
+    
+	async create(body)
+	{
+        try {
+            const [row] = await dbConnection.execute("INSERT INTO `category` (`title`, `description`) VALUES ( '" + body.title + "', '" + body.description + "');");
 			const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

@@ -8,7 +8,20 @@ class AuthController {
 
     async register(req, res, next)
     {    
-        res.end(await Auth.register(req.body));
+        if(body.password != body.password_confirm)
+        {
+            res.status(401).send('Passwords do not match');
+        }
+        else
+        {
+            res.end(await Auth.register(req.body));
+        }
+    }
+
+    async activate(req, res, next)
+    {    
+        var confirm_token = req.params.confirm_token;
+        res.end(await Auth.activate(confirm_token));
     }
 
     async login(req, res, next)
@@ -39,14 +52,14 @@ class AuthController {
 
     async password_reset(req, res, next)
     {
-        res.end(await Auth.password_reset());
+        res.end(await Auth.password_reset(req.body));
     }
 
     async password_reset_second(req, res, next)
     {    
         var confirm_token = req.params.confirm_token;
 
-        res.end(await Auth.password_reset_second(confirm_token));
+        res.end(await Auth.password_reset_second(confirm_token, req.body));
     }
 
 }

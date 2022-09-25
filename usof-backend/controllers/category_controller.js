@@ -20,14 +20,13 @@ class CategoryController {
     async update(req, res, next)
     {
         var access_token = req.params.access_token;
-        var category_id = req.params.category_id;
     }
 
     async create(req, res, next)
     {
         try {
             var access_token = req.params.access_token;
-            res.end(await Category.add(req.body));
+            res.end(await Category.create(req.body));
         } catch (err) {
             next(err);
         }
@@ -38,6 +37,13 @@ class CategoryController {
         var access_token = req.params.access_token;
         var category_id = req.params.category_id;
         res.end(await Category.delete_by_id(category_id));
+    }
+    
+    async select_posts_by_category(req, res, next)
+    {
+        var access_token = req.params.access_token;
+        var category_id = req.params.category_id;
+        res.end(await Category.select_posts_by_category(category_id));
     }
 }
 

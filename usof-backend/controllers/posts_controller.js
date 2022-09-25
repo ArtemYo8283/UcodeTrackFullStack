@@ -1,6 +1,7 @@
 const dbConnection  = require('../db.js');
 const check_token = require('../utils/check_token.js');
 const check_role = require('../utils/check_role.js');
+const get_userid = require('../utils/get_userid.js');
 const Post = require('../models/Post.js');
 
 class PostController {
@@ -17,6 +18,13 @@ class PostController {
         res.end(await Post.select_by_id(post_id));
     }
 
+    async select_category_by_id(req, res, next)
+    {
+        var post_id = req.params.post_id;
+        var access_token = req.params.access_token;
+        res.end(await Post.select_category_by_id(post_id));
+    }
+
     async update(req, res, next)
     {
         var access_token = req.params.access_token;
@@ -27,7 +35,8 @@ class PostController {
     {
         try {
             var access_token = req.params.access_token;
-            res.end(await Post.add(req.body));
+            var author_id = await get_userid(access_token);
+            res.end(await Post.create(req.body, author_id));
         } catch (err) {
             next(err);
         }
