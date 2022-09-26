@@ -42,6 +42,7 @@ router.delete('/users/:user_id/:access_token', usercontroller.delete_by_id);
 //post
 router.get('/posts/:access_token', postcontroller.select_all);
 router.get('/posts/:post_id/:access_token', postcontroller.select_by_id);
+router.get('/posts/:post_id/comments', commentcontroller.select_by_postid);
 router.post('/posts/:post_id/comments/:access_token', commentcontroller.create);
 router.get('/posts/:post_id/categories/:access_token', postcontroller.select_category_by_id);
 router.get('/posts/:post_id/like/:access_token', likecontroller.select_post_like_by_id);

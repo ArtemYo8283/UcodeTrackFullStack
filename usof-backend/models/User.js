@@ -4,10 +4,17 @@ const token_service = require('../utils/token_service.js');
 class User
 {
 
-	async select_all()
+	async select_all(user_role)
 	{
         try {
-            const [row] = await dbConnection.execute("SELECT * FROM `user`");
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "SELECT * FROM `user`";
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
 			return jsonContent;
         } catch (e) {
@@ -15,10 +22,17 @@ class User
         }
 	}
 
-	async select_by_id(id)
+	async select_by_id(id, user_role)
 	{
         try {
-            const [row] = await dbConnection.execute("SELECT * FROM `user` WHERE id = " + id);
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "SELECT * FROM `user` WHERE id = " + id;
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+			const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
@@ -26,20 +40,27 @@ class User
         }
 	}
 
-	async add(body)
+	async add(body, user_role)
 	{
         try {
 			const password = await hash_password(body.password);
 			const token = token_service.generateTokens({user: body.login});
-            const [row] = await dbConnection.execute("INSERT INTO `user`(`login`,`password`,`full_name`,`email`,`profile_pic`,`rating`,`token`,`role_id`) VALUES ('" 
-			+ body.login + "', '"
-			+ password + "', '"
-			+ body.full_name + "', '"
-			+ body.email + "', '"
-			+ body.profilepic + "', '"
-			+ body.rating + "', '"
-			+ token + "', "
-			+ body.role_id + ")");
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "INSERT INTO `user`(`login`,`password`,`full_name`,`email`,`profile_pic`,`rating`,`token`,`role_id`) VALUES ('" 
+				+ body.login + "', '"
+				+ password + "', '"
+				+ body.full_name + "', '"
+				+ body.email + "', '"
+				+ body.profilepic + "', '"
+				+ body.rating + "', '"
+				+ token + "', "
+				+ body.role_id + ")";
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+			const [row] = await dbConnection.execute(sql);
 			const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
@@ -47,10 +68,17 @@ class User
         }
 	}
 
-	async update(body, user_id)
+	async update(body, user_id, user_role)
 	{
 		try {
-			const [row] = await dbConnection.execute("UPDATE `user` SET `full_name` = '" + body.full_name + "' WHERE id = " + user_id);
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "UPDATE `user` SET `full_name` = '" + body.full_name + "' WHERE id = " + user_id;
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+			const [row] = await dbConnection.execute(sql);
 			const jsonContent = JSON.stringify(row);
             return jsonContent;
 		} catch (e) {
@@ -58,10 +86,34 @@ class User
 		}
 	}
 
-	async delete_by_id(id)
+	async update_avatar(user_role)
 	{
         try {
-            const [row] = await dbConnection.execute("DELETE FROM `user` WHERE id = " + id);
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "";
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+            const [row] = await dbConnection.execute(sql);
+            const jsonContent = JSON.stringify(row);
+			return jsonContent;
+        } catch (e) {
+            console.log(e.sqlMessage);
+        }
+	}
+	async delete_by_id(id, user_role)
+	{
+        try {
+			var sql = "";
+			if(user_role == "admin") {
+				sql = "DELETE FROM `user` WHERE id = " + id;
+			}
+			else if(user_role == "user") {
+				return 403;
+			}
+			const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

@@ -23,9 +23,16 @@ class Like
         }
     }
 
-	async delete_post_like_by_id(id, author_id) {
+	async delete_post_like_by_id(id, author_id, user_role) {
         try {
-            const [row] = await dbConnection.execute("DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = false AND `author_id` = " + author_id);
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = false";
+			}
+			else if(user_role == "user") {
+				sql = "DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = false AND `author_id` = " + author_id;
+			}
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
@@ -33,9 +40,16 @@ class Like
         }
 	}
 
-	async delete_comment_like_by_id(id, author_id) {
+	async delete_comment_like_by_id(id, author_id, user_role) {
         try {
-            const [row] = await dbConnection.execute("DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = true AND `author_id` = " + author_id);
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = true";
+			}
+			else if(user_role == "user") {
+				sql = "DELETE FROM `like` WHERE `entityid` = " + id + " AND `post/comment` = true AND `author_id` = " + author_id;
+			}
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

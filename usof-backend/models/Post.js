@@ -4,10 +4,20 @@ const toSQLDate = require('js-date-to-sql-datetime');
 class Post
 {
 
-	async select_all()
+	async select_all(user_role, author_id)
 	{
         try {
-            const [row] = await dbConnection.execute("SELECT * FROM `post`");
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "SELECT * FROM `post`";
+			}
+			else if(user_role == "user") {
+				sql = "SELECT * FROM `post` WHERE status = true OR author_id = " + author_id;
+			}
+            else {
+                sql = "SELECT * FROM `post` WHERE status = true";
+            }
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
 			return jsonContent;
         } catch (e) {
@@ -15,10 +25,20 @@ class Post
         }
 	}
 
-	async select_by_id(id)
+	async select_by_id(id, user_role, author_id)
 	{
         try {
-            const [row] = await dbConnection.execute("SELECT * FROM `post` WHERE id = " + id);
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "SELECT * FROM `post` WHERE id = " + id;
+			}
+			else if(user_role == "user") {
+				sql = "SELECT * FROM `post` WHERE id = " + id + " AND (status = true OR author_id = " + author_id + ")";
+			}
+            else {
+                sql = "SELECT * FROM `post` WHERE status = true AND id = " + id;
+            }
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
@@ -26,10 +46,17 @@ class Post
         }
 	}
 
-	async update(body, post_id)
+	async update(body, post_id, user_role, author_id)
 	{
 		try {
-			const [row] = await dbConnection.execute("UPDATE `post` SET `title` = '" + body.title + "', `status` = '" + body.status + "', `content` = '" + body.content + "' WHERE id = " + post_id);
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "UPDATE `post` SET `title` = '" + body.title + "', `status` = '" + body.status + "', `content` = '" + body.content + "' WHERE id = " + post_id;
+			}
+			else if(user_role == "user") {
+				sql = "UPDATE `post` SET `title` = '" + body.title + "', `status` = '" + body.status + "', `content` = '" + body.content + "' WHERE id = " + post_id + " AND author_id = " + author_id;
+			}
+            const [row] = await dbConnection.execute(sql);
 			const jsonContent = JSON.stringify(row);
             return jsonContent;
 		} catch (e) {
@@ -66,10 +93,17 @@ class Post
         }
 	}
 
-	async delete_by_id(id)
+	async delete_by_id(id, user_role, author_id)
 	{
         try {
-            const [row] = await dbConnection.execute("DELETE FROM `post` WHERE id = " + id);
+            var sql = "";
+			if(user_role == "admin") {
+				sql = "DELETE FROM `post` WHERE id = " + id;
+			}
+			else if(user_role == "user") {
+				sql = "DELETE FROM `post` WHERE id = " + id + " AND author_id = " + author_id;
+			}
+            const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

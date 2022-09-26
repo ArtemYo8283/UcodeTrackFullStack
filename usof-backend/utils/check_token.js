@@ -1,20 +1,20 @@
 const dbConnection  = require('../db.js');
 
 module.exports = async function (access_token) {
-    if(access_token == "" || access_token === undefined) {
-        return 401;
-    }
     try {
+        var code = 401;
+        if(access_token == "" || access_token === undefined) {
+            return 401;
+        }
         const [row] = await dbConnection.execute("SELECT token FROM user");
         row.forEach((element) => {
             if(element.token == access_token) {
-               return 200;
+                code = 200;
             }
-        })
-        
+        });
+        return code;
     } catch (e) {
-        console.log("check_token_db_error");
+        console.log(e);
     }
-    return 403;
 }
 
