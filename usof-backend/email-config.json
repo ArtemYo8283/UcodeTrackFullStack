@@ -1,10 +1,9 @@
 {
-    "host": "smtp.ethereal.email",
+    "host": "smtp.gmail.com",
     "port": 587,
-    "secure": false,
     "auth": {
-        "user": "brice.fisher44@ethereal.email",
-        "pass": "2pkJsk93agKmYtw9xW"
+        "user": "lkek8014@gmail.com",
+        "pass": "nczotdkawxpabhhm"
     }
 }
 

@@ -11,20 +11,14 @@ class LikeController {
             var access_token = req.params.access_token;
             var post_id = req.params.post_id;
             const verify_code = await check_token(access_token);
-            if(verify_code == 200) {
-                const result = await Like.select_post_like_by_id(post_id);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
+            const result = await Like.select_post_like_by_id(post_id);
+            if(result == 403) {
+                res.status(403).send('Forbidden: Access denied');
             }
-            else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
+            else {
+                res.end(result);
             }
+            res.end();
         } catch (err) {
             next(err);
         }

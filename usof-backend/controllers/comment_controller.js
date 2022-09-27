@@ -31,6 +31,7 @@ class CommentController {
     }
 
     async select_by_postid(req, res, next) {  
+
         try {  
             var post_id = req.params.post_id;
             const result = await Comment.select_by_postid(post_id);

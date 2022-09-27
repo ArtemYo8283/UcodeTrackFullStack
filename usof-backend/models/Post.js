@@ -9,19 +9,19 @@ class Post
         try {
             var sql = "";
 			if(user_role == "admin") {
-				sql = "SELECT * FROM `post`";
+				sql = "SELECT `post`.`id`, `post`.`author_id`, `post`.`title`, `post`.`publish_date`, `post`.`status`, `post`.`content`, `user`.`login` FROM `apidb`.`post`, `apidb`.`user` WHERE  `post`.`author_id` = `user`.`id`";
 			}
 			else if(user_role == "user") {
-				sql = "SELECT * FROM `post` WHERE status = true OR author_id = " + author_id;
+				sql = "SELECT `post`.`id`, `post`.`author_id`, `post`.`title`, `post`.`publish_date`, `post`.`status`, `post`.`content`, `user`.`login` FROM `apidb`.`post`, `apidb`.`user` WHERE  `post`.`author_id` = `user`.`id` AND (status = true OR author_id = " + author_id + ")";
 			}
             else {
-                sql = "SELECT * FROM `post` WHERE status = true";
+                sql = "SELECT `post`.`id`, `post`.`author_id`, `post`.`title`, `post`.`publish_date`, `post`.`status`, `post`.`content`, `user`.`login` FROM `apidb`.`post`, `apidb`.`user` WHERE  `post`.`author_id` = `user`.`id` AND status = true";
             }
             const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
 			return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 
@@ -42,7 +42,7 @@ class Post
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 
@@ -107,7 +107,7 @@ class Post
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 }

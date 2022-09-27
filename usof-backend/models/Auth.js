@@ -15,24 +15,33 @@ class Auth
             const [row] = await dbConnection.execute("INSERT INTO `user` (`login`, `password`, `email`, `token`) VALUES ('" + body.login + "', '" + hash + "', '" +  body.email + "', '" + token + "')");
 
             const transporter = nodemailer.createTransport(config);
-            const url = `http://localhost:3000/api/auth/activate/${token}`;
+            const url = `http://localhost:3000/confirm-email/${token}`;
             transporter.sendMail({
                 to: body.email,
                 subject: 'Confirm Email',
-                html: `Please click this email to confirm your email: <a href="${url}">"${url}"</a>`,
+                html: `Please click this email to confirm your email: <a href="${url}">Click here</a>`,
             });
 
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
     async activate(confirm_token)
     {    
         try {
+            const [row2] = await dbConnection.execute("SELECT COUNT(`id`) FROM `user` WHERE `token` = '" + confirm_token + "'");
+            if(row2[0]['COUNT(`id`)'] == 0) {
+                return "Token";
+            }
+            const [row1] = await dbConnection.execute("SELECT COUNT(`id`) FROM `user` WHERE `token` = '" + confirm_token + "' AND `activate` = true");
+            if(row1[0]['COUNT(`id`)'] != 0) {
+                return "Already";
+            }
             const [row] = await dbConnection.execute("UPDATE `user` SET `activate` = true WHERE `token` = '" + confirm_token + "' AND `activate` = false");
+            return "Success";
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -41,21 +50,19 @@ class Auth
         try {
             var hash = await hash_password(body.password);
             const [row] = await dbConnection.execute("SELECT `login`, `password`, `email`, `activate` FROM `user`");
-            var x = false;
+            var x = "";
             row.forEach(async (element) => {
-                if(body.login == element.login && body.email == element.email && hash == element.password)
-                {
-                    if(element.activate == true)
-                    {
+                if(body.login == element.login && hash == element.password) {
+                    if(element.activate == true) {
                         const token = token_service.generateTokens({user: body.login});
-                        x = true;
+                        x = token;
                         const [x1] = await dbConnection.execute("UPDATE `user` SET `token` = '" + token + "' WHERE `login` = '" + body.login + "'");
                     }
                 }
             });
             return x;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -66,7 +73,7 @@ class Auth
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -76,14 +83,14 @@ class Auth
             const token = token_service.generateTokens({user: body.email});
             const [row] = await dbConnection.execute("UPDATE `user` SET `activate` = false, `token` = '" + token + "' WHERE `email` = '" + body.email + "'");
             const transporter = nodemailer.createTransport(config);
-            const url = `http://localhost:3000/api/auth/password-reset/${token}`;
+            const url = `http://localhost:3000/new-password/${token}`;
             transporter.sendMail({
                 to: body.email,
                 subject: 'Confirm Email',
-                html: `Please click this email to confirm your email: <a href="${url}">"${url}"</a>`,
+                html: `Please click this email to confirm your email: <a href="${url}">Click here</a>`,
             });
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -93,7 +100,22 @@ class Auth
             var hash = await hash_password(body.new_password);
             const [row] = await dbConnection.execute("UPDATE `user` SET `activate` = true, `token` = '', password = '" + hash + "' WHERE `token` = '" + confirm_token + "' AND `activate` = false");
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
+        }
+    }
+
+    async check_confirm_token(confirm_token)
+    {    
+        try {
+            const [row] = await dbConnection.execute("SELECT COUNT(`id`) FROM `user` WHERE `token` = '" + confirm_token + "' AND `activate` = false");
+            if(row[0]['COUNT(`id`)'] == 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 }

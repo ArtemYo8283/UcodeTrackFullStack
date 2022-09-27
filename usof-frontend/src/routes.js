@@ -1,0 +1,22 @@
+const apiUrl = "http://localhost:8080/api"
+
+export default {
+    registerPath: () => [apiUrl, 'auth', 'register'].join('/'),
+    authPath: () => [apiUrl, 'auth', 'login'].join('/'),
+    passwordresetPath: () => [apiUrl, 'auth', 'password-reset'].join('/'),
+    setNewPassword: (token) => [apiUrl, 'auth', 'new-password-set', token].join('/'),
+    logoutPath: (token) => [apiUrl, 'auth', 'logout', token].join('/'),
+    confirmEmail: (token) => [apiUrl, 'auth', 'activate', token].join('/'),
+    validToken: (token) => [apiUrl, 'auth', 'check-confirm-token', token].join('/'),
+    allCategory: () => [apiUrl, 'categories'].join('/'),
+    getUserById: (id, token) => [apiUrl, 'users', id, token].join('/'),
+    getAllUsers: () => [apiUrl, 'users'].join('/'),
+    allUser: (token) => [apiUrl, 'users', token].join('/'),
+    allPost: () => [apiUrl, 'posts'].join('/'),
+    getPostsById: (id, token) => [apiUrl, 'posts', id, token].join('/'),
+    createPost: (token) => [apiUrl, 'posts', token].join('/'),
+    categoriesPost: (id) => [apiUrl, 'posts', id, 'categories'].join('/'),
+    likesPost: (id) => [apiUrl, 'posts', id, 'like'].join('/'),
+    commentsPost: (id) => [apiUrl, 'posts', id, 'comments', 'aboba'].join('/'),
+
+}

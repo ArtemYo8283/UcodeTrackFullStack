@@ -13,17 +13,12 @@ class UserController {
             if(verify_code == 200) {
                 var user_role = await check_role(access_token);
                 const result = await User.select_all(user_role);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
+                res.end(result);
             }
             else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
+                var user_role = " ";
+                const result = await User.select_all(user_role);
+                res.end(result);
             }
         } catch (err) {
             next(err);
@@ -31,7 +26,7 @@ class UserController {
     }
     
     async select_by_id(req, res, next) {
-        try {
+        try {  
             var user_id = req.params.user_id;
             var access_token = req.params.access_token;
             const verify_code = await check_token(access_token);

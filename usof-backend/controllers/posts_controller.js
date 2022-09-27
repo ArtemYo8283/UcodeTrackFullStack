@@ -51,20 +51,14 @@ class PostController {
             var post_id = req.params.post_id;
             var access_token = req.params.access_token;
             const verify_code = await check_token(access_token);
-            if(verify_code == 200) {
-                const result = await Post.select_category_by_id(post_id);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
+            const result = await Post.select_category_by_id(post_id);
+            if(result == 403) {
+                res.status(403).send('Forbidden: Access denied');
             }
-            else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
+            else {
+                res.end(result);
             }
+            res.end();
         } catch (err) {
             next(err);
         }

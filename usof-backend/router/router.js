@@ -26,10 +26,12 @@ router.post('/auth/logout/:access_token', authcontroller.logout);
 router.post('/auth/password-reset',
     check('email', 'Incorrect email format').isEmail(),
     authcontroller.password_reset);
-router.post('/auth/password-reset/:confirm_token', authcontroller.password_reset_second);
+router.post('/auth/new-password-set/:confirm_token', authcontroller.password_reset_second);
 router.get('/auth/activate/:confirm_token', authcontroller.activate);
+router.get('/auth/check-confirm-token/:confirm_token', authcontroller.check_confirm_token);
 
 //user
+router.get('/users/', usercontroller.select_all);
 router.get('/users/:access_token', usercontroller.select_all);
 router.get('/users/:user_id/:access_token', usercontroller.select_by_id);
 router.post('/users/:access_token',
@@ -42,11 +44,17 @@ router.patch('/users/:user_id/:access_token', usercontroller.update);
 router.delete('/users/:user_id/:access_token', usercontroller.delete_by_id);
 
 //post
+router.get('/posts', postcontroller.select_all);
 router.get('/posts/:access_token', postcontroller.select_all);
+router.get('/posts/:post_id/', postcontroller.select_by_id);
 router.get('/posts/:post_id/:access_token', postcontroller.select_by_id);
-router.get('/posts/:post_id/comments', commentcontroller.select_by_postid);
+
+router.get('/posts/:post_id/comments/aboba', commentcontroller.select_by_postid);
+
 router.post('/posts/:post_id/comments/:access_token', commentcontroller.create);
+router.get('/posts/:post_id/categories/', postcontroller.select_category_by_id);
 router.get('/posts/:post_id/categories/:access_token', postcontroller.select_category_by_id);
+router.get('/posts/:post_id/like/', likecontroller.select_post_like_by_id);
 router.get('/posts/:post_id/like/:access_token', likecontroller.select_post_like_by_id);
 router.post('/posts/:access_token', postcontroller.create);
 router.post('/posts/:post_id/like/:access_token', likecontroller.create_post_like);

@@ -1,0 +1,61 @@
+import { Outlet, Link } from "react-router-dom";
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import routes from '../routes.js';
+import { toast } from 'react-toastify';
+import Context from '../context/Context.js';
+
+export default (props) => {
+	const { logout } = useContext(Context);
+	const { isLogin } = props;
+	const [state, setState] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const { currentUser, token } = JSON.parse(
+		localStorage.getItem('currentUser')
+	);
+
+	const logoutUser = async () => {
+		try {
+			const response = await axios.post(routes.logoutPath(token));
+			localStorage.setItem(
+				'currentUser',
+				JSON.stringify({ currentUser: 'guest' })
+			);
+			logout();
+			toast.info(response.data.massage);
+		} catch (err) {}
+	};
+
+	return (
+		<>
+			<nav className="menu-bar">
+				<div className="group">
+					<Link to="/" className="itemF">Home</Link>
+				</div>
+				<div className="group">
+					{isLogin ? (
+						<>
+							<div className="group1">
+								<Link to={`/profile/${currentUser.user_id}`} className="item">Profile</Link>
+							</div>
+							<div className="group1" onClick={async () => await logoutUser()}>
+								<Link to="/" className="item">Logout</Link>
+							</div>
+						</>
+						) : ( 
+							<>
+								<div className="group1">
+									<Link to="/auth" className="item">Sign In</Link>
+								</div>
+								<div className="group1">
+									<Link to="/register" className="item">Sign Up</Link>
+								</div>
+							</>
+						)
+					}
+				</div>
+			</nav>
+			<Outlet />
+		</>
+	)
+};

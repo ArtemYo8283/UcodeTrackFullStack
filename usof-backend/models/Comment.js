@@ -17,7 +17,7 @@ class Comment
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 
@@ -28,7 +28,7 @@ class Comment
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 
@@ -64,7 +64,7 @@ class Comment
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -82,7 +82,7 @@ class Comment
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 }

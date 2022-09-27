@@ -9,7 +9,7 @@ class Like
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -19,7 +19,7 @@ class Like
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
     }
 
@@ -36,7 +36,7 @@ class Like
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 
@@ -53,7 +53,7 @@ class Like
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
     
@@ -73,7 +73,7 @@ class Like
                 const [row] = await dbConnection.execute("INSERT INTO `like` (`author_id`, `publish_date`, `post/comment`, `entityid`, `type`) VALUES( " + author_id + ", '" + toSQLDate(Date.now()) + "', false, " + post_id + ", " + body.type + ")");
             }
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
         
@@ -93,7 +93,7 @@ class Like
                 const [row] = await dbConnection.execute("INSERT INTO `like` (`author_id`, `publish_date`, `post/comment`, `entityid`, `type`) VALUES( " + author_id + ", '" + toSQLDate(Date.now()) + "', false, " + comment_id + ", " + body.type + ")");
             }
         } catch (e) {
-            console.log(e.sqlMessage);
+            console.log(e);
         }
 	}
 }
