@@ -1,6 +1,8 @@
 const dbConnection  = require('../db.js');
 const hash_password = require('../utils/hash_password.js');
 const token_service = require('../utils/token_service.js');
+const upload_Avatar_Image = require('../utils/upload_Avatar_Image.js');
+
 class User
 {
 
@@ -86,16 +88,10 @@ class User
 		}
 	}
 
-	async update_avatar(user_role)
+	async update_avatar(path, user_role, user_id)
 	{
         try {
-			var sql = "";
-			if(user_role == "admin") {
-				sql = "";
-			}
-			else if(user_role == "user") {
-				return 403;
-			}
+			var sql = "UPDATE `user` SET `profile_pic` = '" + path + "' WHERE id = " + user_id;
             const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
 			return jsonContent;

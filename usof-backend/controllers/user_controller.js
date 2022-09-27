@@ -2,6 +2,7 @@ const dbConnection  = require('../db.js');
 const check_token = require('../utils/check_token.js');
 const check_role = require('../utils/check_role.js');
 const token_service = require('../utils/token_service.js');
+const get_userid = require('../utils/get_userid.js');
 const User = require('../models/User.js');
 
 class UserController {
@@ -56,11 +57,12 @@ class UserController {
 
     async update_avatar(req, res, next) {   
         try {
-            var access_token = req.query.access_token;
+            var access_token = req.params.access_token;
             const verify_code = await check_token(access_token);
+            var user_id = await get_userid(access_token);
             if(verify_code == 200) {
                 var user_role = await check_role(access_token);
-                const result = await User.update_avatar(user_role);
+                const result = await User.update_avatar(req.params.filename, user_role, user_id);
                 if(result == 403) {
                     res.status(403).send('Forbidden: Access denied');
                 }

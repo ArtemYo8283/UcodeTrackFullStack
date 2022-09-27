@@ -13,17 +13,12 @@ class PostController {
             if(verify_code == 200) {
                 var user_role = await check_role(access_token);
                 const result = await Post.select_all(user_role, author_id);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
+                res.end(result);
             }
             else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
+                var user_role = " ";
+                const result = await Post.select_all(user_role, author_id);
+                res.end(result);
             }
         } catch (err) {
             next(err);
@@ -39,17 +34,12 @@ class PostController {
             if(verify_code == 200) {
                 var user_role = await check_role(access_token);
                 const result = await Post.select_by_id(post_id, user_role, author_id);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
+                res.end(result);
             }
             else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
+                var user_role = " ";
+                const result = await Post.select_by_id(post_id, user_role, author_id);
+                res.end(result);
             }
         } catch (err) {
             next(err);

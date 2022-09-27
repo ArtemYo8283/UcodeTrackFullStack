@@ -32,23 +32,9 @@ class CommentController {
 
     async select_by_postid(req, res, next) {  
         try {  
-            var access_token = req.params.access_token;
             var post_id = req.params.post_id;
-            const verify_code = await check_token(access_token);
-            if(verify_code == 200) {
-                const result = await Comment.select_by_postid(post_id);
-                if(result == 403) {
-                    res.status(403).send('Forbidden: Access denied');
-                }
-                else {
-                    res.end(result);
-                }
-                res.end();
-            }
-            else if(verify_code == 401) {
-                res.status(401).send('Unauthorized');
-                res.end();
-            }
+            const result = await Comment.select_by_postid(post_id);
+            res.end(result);
         } catch (err) {
             next(err);
         }

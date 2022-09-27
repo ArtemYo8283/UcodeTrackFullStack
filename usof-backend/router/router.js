@@ -3,6 +3,8 @@ const router = express.Router();
 const db = require('../db.js');
 const { check, validationResult } = require('express-validator');
 
+const upload_Avatar_Image = require('../utils/upload_Avatar_Image.js');
+
 const postcontroller = require('../controllers/posts_controller.js');
 const usercontroller = require('../controllers/user_controller.js');
 const likecontroller = require('../controllers/like_controller.js');
@@ -35,7 +37,7 @@ router.post('/users/:access_token',
     check('login', 'Login length should be 6 to 24 characters').isLength({ min: 6, max: 24}),
     check('email', 'Incorrect email format').isEmail(),
     usercontroller.create);
-router.patch('/users/avatar/:access_token', usercontroller.update_avatar);
+router.patch('/users/avatar/:access_token', upload_Avatar_Image.single('image'), usercontroller.update_avatar);
 router.patch('/users/:user_id/:access_token', usercontroller.update);
 router.delete('/users/:user_id/:access_token', usercontroller.delete_by_id);
 
