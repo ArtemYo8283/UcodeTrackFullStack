@@ -45,3 +45,11 @@
     border-color: #081F2D; 
     transition: 0.3s; 
 }
+
+.roleTitle{
+    font-size: 0.2in;
+    color: gold; 
+}
+.profileitem{
+    padding: 10px;
+}

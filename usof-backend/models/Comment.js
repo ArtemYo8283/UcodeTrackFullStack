@@ -85,6 +85,16 @@ class Comment
             console.log(e);
         }
 	}
+	            
+	async count_by_id(id) {
+        try {
+            const [row] = await dbConnection.execute("SELECT COUNT(`id`) FROM `comment` WHERE `postid` = " + id);
+            const jsonContent = JSON.stringify(row[0]['COUNT(`id`)']);
+            return jsonContent;
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 module.exports = new Comment();

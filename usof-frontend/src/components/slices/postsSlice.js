@@ -22,7 +22,7 @@ export const fetchPostCategory = createAsyncThunk(
 	'posts/postCategories',
 	async (id) => {
 		const response = await axios.get(routes.categoriesPost(id));
-		return response.data;
+		return {data: response.data, idPost: id};
 	}
 );
 
@@ -39,12 +39,24 @@ export const fetchPostComments = createAsyncThunk(
 	}
 );
 
+export const fetchPostLikeCount = createAsyncThunk('posts/postLikeCount', async (id) => {
+	const response = await axios.get(routes.countLike(id));
+	return response.data;
+});
+
+export const fetchPostCommentsCount = createAsyncThunk('posts/postCommentsCount', async (id) => {
+	const response = await axios.get(routes.countComment(id));
+	return response.data;
+});
+
 const postsAdapter = createEntityAdapter();
 
 const initialState = postsAdapter.getInitialState({
 	postCategories: {},
 	postLikes: {},
 	postComments: {},
+	postLikesCount: {},
+	postCommentsCount: {},
 	error: null,
 	loading: true,
 });
@@ -54,6 +66,13 @@ const postsSlice = createSlice({
 	initialState,
 	reducers: {
 		addPost: postsAdapter.addOne,
+		updatePost: postsAdapter.updateOne,
+		updateCategoryPost(state, { payload }) {
+		  state.postCategories[payload.postId] = payload.category;
+		},
+		setCurrentPage(state, { payload }) {
+		  state.currentPage = payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -69,18 +88,18 @@ const postsSlice = createSlice({
 			state.error = 'Error load post try later :(';
 		})
 		.addCase(fetchPostCategory.fulfilled, (state, { payload }) => {
-			state.postCategories[payload.postId] = payload.category;
+			state.postCategories[payload.idPost] = payload.data;
 		})
 		.addCase(fetchPostLike.fulfilled, (state, { payload }) => {
 			state.postLikes[payload.postId] = {
-			countLike: payload.countLike,
-			likeInfo: payload.like,
+				countLike: payload.length,
+				likeInfo: payload,
 			};
 		})
 		.addCase(fetchPostComments.fulfilled, (state, { payload }) => {
 			state.postComments[payload.postId] = {
-			countComments: payload.countComments,
-			comments: payload.comments,
+				countComments: payload.length,
+				comments: payload,
 			};
 		})
 		.addCase(fetchInfoPost.pending, (state, { payload }) => {
@@ -90,6 +109,12 @@ const postsSlice = createSlice({
 			state.entities[payload[0].id] = payload[0];
 			state.loading = false;
 		})
+		.addCase(fetchPostLikeCount.fulfilled, (state, { payload }) => {
+			state.postLikesCount[payload.idPost] = payload.countLike;
+		})
+		.addCase(fetchPostCommentsCount.fulfilled, (state, { payload }) => {
+			state.postCommentsCount[payload.idPost] = payload.countComment;
+		})
 		.addCase(fetchInfoPost.rejected, (state) => {
 			state.error = 'This page not found';
 			state.loading = false;
@@ -97,7 +122,7 @@ const postsSlice = createSlice({
 	},
 });
 
-export const { action } = postsSlice;
+export const { actions } = postsSlice;
 
 export const selectors = postsAdapter.getSelectors((state) => state.posts);
 

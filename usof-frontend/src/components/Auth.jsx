@@ -66,15 +66,15 @@ export default function Auth() {
 			<form onSubmit={formik.handleSubmit} className="Main_Form">
 				<h1>Sing In</h1>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="login" className="text-sm font-medium">
+					<div>
+						<label htmlFor="login">
 							Login
 						</label>
 						<span className="Errors">
 							{formik.errors.login ? ' ' + formik.errors.login : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="login"
 							className="inputField"
@@ -87,15 +87,15 @@ export default function Auth() {
 					</div>
 				</div>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="password" className="text-sm font-medium">
+					<div>
+						<label htmlFor="password">
 							Password
 						</label>
 						<span className="Errors">
 							{formik.errors.password ? ' ' + formik.errors.password : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="password"
 							className="inputField"
@@ -107,20 +107,19 @@ export default function Auth() {
 							autoComplete="password"
 						/>
 					</div>
-					<p className="text-sm text-gray-500">
-					Forgot password?
-					<a className="text-indigo-600 transition ease-in-out delay-50 hover:opacity-75 ml-2" href="/resetpassword">
-						Reset It
-					</a>
-				</p>
+					<p>
+						Forgot password?
+						<a href="/resetpassword">
+							Reset It
+						</a>
+					</p>
 				</div>
 				<button type="submit" className="Submit_btn">
 					Sign In
 				</button>
-
-				<p className="text-sm text-gray-500">
+				<p>
 					Don't have an account?
-					<a className="text-indigo-600 transition ease-in-out delay-50 hover:opacity-75 ml-2" href="/register">
+					<a href="/register">
 						Sign Up
 					</a>
 				</p>

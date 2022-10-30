@@ -71,15 +71,15 @@ export default function SetNewPassword() {
 				<form onSubmit={formik.handleSubmit} className="Main_Form">
 					<h1>New password</h1>
 					<div>
-						<div className="flex items-center justify-between">
-							<label htmlFor="password" className="text-sm font-medium">
+						<div>
+							<label htmlFor="password">
 								Password
 							</label>
 							<span className="Errors">
 								{formik.errors.new_password ? ' ' + formik.errors.new_password : null}
 							</span>
 						</div>
-						<div className="relative mt-1">
+						<div>
 							<input
 								id="password"
 								className="inputField"
@@ -94,15 +94,15 @@ export default function SetNewPassword() {
 						</div>
 					</div>
 					<div>
-						<div className="flex items-center justify-between">
-							<label htmlFor="password" className="text-sm font-medium">
+						<div>
+							<label htmlFor="password">
 								Password confirm
 							</label>
 							<span className="Errors">
 								{formik.errors.new_password_confirm ? ' ' + formik.errors.new_password_confirm : null}
 							</span>
 						</div>
-						<div className="relative mt-1">
+						<div>
 							<input
 								id="confirm-password"
 								className="inputField"

@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import routes from '../routes.js';
 import { toast } from 'react-toastify';
@@ -8,8 +8,6 @@ import Context from '../context/Context.js';
 export default (props) => {
 	const { logout } = useContext(Context);
 	const { isLogin } = props;
-	const [state, setState] = useState(false);
-	const [isOpen, setIsOpen] = useState(false);
 	const { currentUser, token } = JSON.parse(
 		localStorage.getItem('currentUser')
 	);
@@ -31,6 +29,9 @@ export default (props) => {
 			<nav className="menu-bar">
 				<div className="group">
 					<Link to="/" className="itemF">Home</Link>
+					{isLogin ? (
+						<Link to="/create-post" className="itemP">Create Post</Link>
+						) : null}
 				</div>
 				<div className="group">
 					{isLogin ? (

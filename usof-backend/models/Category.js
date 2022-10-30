@@ -9,8 +9,8 @@ class Category
 			if(user_role == "admin") {
 				sql = "SELECT * FROM `category`";
 			}
-			else if(user_role == "user") {
-				return 403;
+			else {
+				sql = "SELECT * FROM `category`";
 			}
             const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
@@ -27,8 +27,8 @@ class Category
 			if(user_role == "admin") {
 				sql = "SELECT * FROM `category` WHERE id = " + id;
 			}
-			else if(user_role == "user") {
-				return 403;
+			else {
+				sql = "SELECT * FROM `category` WHERE id = " + id;
 			}
             const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);

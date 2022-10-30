@@ -8,11 +8,12 @@ import routes from '../../routes.js';
 
 export const fetchAllCategory = createAsyncThunk(
 	'categories/allCategories',
-	async () => {
-		const response = await axios.get(routes.allCategory());
+	async (token) => {
+		const response = await axios.get(routes.allCategory(token));
 		return response.data;
 	}
 );
+
 
 const categoryAdapter = createEntityAdapter();
 
@@ -27,14 +28,14 @@ const categoriesSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchAllCategory.fulfilled, (state, { payload }) => {
-			categoryAdapter.addMany(state, payload.categories);
+			categoryAdapter.addMany(state, payload);
 		});
 	},
 });
 
 export const { action } = categoriesSlice;
 
-export const selectors = categoryAdapter.getSelectors(
+export const selectorsCategoty = categoryAdapter.getSelectors(
   	(state) => state.categories
 );
 export const getFetchStatus = (state) => state.categories.loading;

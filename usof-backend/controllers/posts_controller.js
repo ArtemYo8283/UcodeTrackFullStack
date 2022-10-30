@@ -50,7 +50,6 @@ class PostController {
         try {
             var post_id = req.params.post_id;
             var access_token = req.params.access_token;
-            const verify_code = await check_token(access_token);
             const result = await Post.select_category_by_id(post_id);
             if(result == 403) {
                 res.status(403).send('Forbidden: Access denied');

@@ -11,18 +11,9 @@ export const fetchAllCommentPost = createAsyncThunk(
 	'categories/allCommentPost',
 	async (id) => {
 		const response = await axios.get(routes.commentsPost(id));
-		console.log(response.data)
 		return response.data;
 	}
 );
-
-// export const fetchLikeComment = createAsyncThunk(
-// 	'categories/likeComment',
-// 	async (id) => {
-// 		const response = await axios.get(routes.getLikeComment(id));
-// 		return { data: response.data, commentId: id };
-// 	}
-// );
 
 const commentAdapter = createEntityAdapter();
 
@@ -45,10 +36,6 @@ const commentSlice = createSlice({
 		.addCase(fetchAllCommentPost.fulfilled, (state, { payload }) => {
 			commentAdapter.addMany(state, payload);
 		});
-		// .addCase(fetchLikeComment.fulfilled, (state, { payload }) => {
-		// 	state.commentLike[payload.commentId] = payload.data.like;
-		// 	state.countLike = payload.data.counterLike;
-		// });
 	},
 });
 

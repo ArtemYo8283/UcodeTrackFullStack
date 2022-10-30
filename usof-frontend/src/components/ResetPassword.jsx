@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -6,15 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import routes from '../routes.js';
 
-
 const validationReset = yup.object({
 	email: yup.string().required('Cannot be blank').trim().email()
 });
 
 export default function ResetPassword() {
 	const inputRef = useRef();
-	const [authFailed, setAuthFailed] = useState(false);
-	const [isLoading, setLoading] = useState(false);
+	const navigate = useNavigate();
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, []);
@@ -30,7 +28,7 @@ export default function ResetPassword() {
 			try {
 				const response = await axios.post(routes.passwordresetPath(), values);
 				toast.info(response.data.massage);
-				// navigate('/');
+				navigate('/');
 			} catch (err) {
 				if (err.isAxiosError && err.response.status === 400) {
 					const responseErrors = err.response.data.errors.errors;
@@ -49,15 +47,15 @@ export default function ResetPassword() {
 			<form onSubmit={formik.handleSubmit} className="Main_Form">
 				<h1>Reset Password</h1>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="email" className="text-sm font-medium">
+					<div>
+						<label htmlFor="email">
 							Email
 						</label>
 						<span className="Errors">
 							{formik.errors.email ? formik.errors.email : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="email"
 							className="inputField"
@@ -71,7 +69,7 @@ export default function ResetPassword() {
 					</div>
 				</div>
 				<br />
-				<button type="submit" className="Submit_btn" disabled={isLoading}>
+				<button type="submit" className="Submit_btn">
 					Reset
 				</button>
 				

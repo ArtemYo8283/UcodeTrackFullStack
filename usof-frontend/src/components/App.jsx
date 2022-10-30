@@ -20,6 +20,8 @@ import '../css/Auth.css';
 import '../css/Profile.css';
 import '../css/Nav.css';
 import '../css/Post.css';
+import '../css/FullPost.css';
+import '../css/CreatePost.css';
 
 export default function App() {
 	if (!localStorage.getItem('currentUser')) {

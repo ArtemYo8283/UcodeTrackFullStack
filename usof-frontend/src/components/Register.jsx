@@ -27,8 +27,6 @@ const validationRegister = yup.object({
 
 export default function Register() {
 	const inputRef = useRef();
-	const [authFailed, setAuthFailed] = useState(false);
-	const [isLoading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	useEffect(() => {
 		inputRef.current?.focus();
@@ -72,15 +70,15 @@ export default function Register() {
 			<form onSubmit={formik.handleSubmit} className="Main_Form">
 				<h1>Sing Up</h1>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="email" className="text-sm font-medium">
+					<div>
+						<label htmlFor="email">
 							Email
 						</label>{' '}
 						<span className="Errors">
 							{formik.errors.email ? formik.errors.email : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="email"
 							className="inputField"
@@ -94,15 +92,15 @@ export default function Register() {
 					</div>
 				</div>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="login" className="text-sm font-medium">
+					<div>
+						<label htmlFor="login">
 							Login
 						</label>{' '}
 						<span className="Errors">
 							{formik.errors.login ? formik.errors.login : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="login"
 							className="inputField"
@@ -115,15 +113,15 @@ export default function Register() {
 					</div>
 				</div>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="password" className="text-sm font-medium">
+					<div>
+						<label htmlFor="password">
 							Password
 						</label>{' '}
 						<span className="Errors">
 							{formik.errors.password ? formik.errors.password : null}
 						</span>
 					</div>
-					<div className="relative mt-1">
+					<div>
 						<input
 							id="password"
 							className="inputField"
@@ -137,8 +135,8 @@ export default function Register() {
 					</div>
 				</div>
 				<div>
-					<div className="flex items-center justify-between">
-						<label htmlFor="password-confirm" className="text-sm font-medium">
+					<div>
+						<label htmlFor="password-confirm">
 							Password confirm
 						</label>{' '}
 						<span className="Errors">
@@ -158,20 +156,19 @@ export default function Register() {
 						/>
 					</div>
 				</div>
-				<div className="flex items-start">
-					<div className="flex items-center h-5">
+				<div>
+					<div>
 						<input
 							id="terms"
 							aria-describedby="terms"
 							type="checkbox"
-							className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 light:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
 							onChange={formik.handleChange}
 							checked={formik.values.terms}
 						/>
 						{' '}
-						<label htmlFor="terms" className="font-light text-gray-500 light:text-gray-300" >
+						<label htmlFor="terms">
 							I accept the{' '}
-							<a className="text-indigo-600 transition ease-in-out delay-50 hover:opacity-75" href="#">
+							<a href="#">
 								Terms and Conditions
 							</a>
 						</label>
@@ -180,9 +177,9 @@ export default function Register() {
 				<button type="submit" className="Submit_btn">
 					Sign Up
 				</button>
-				<p className="text-sm text-gray-500">
+				<p>
 					Already have an account?
-					<a className="text-indigo-600 transition ease-in-out delay-50 hover:opacity-75 ml-2" href="/auth">
+					<a href="/auth">
 						Sign in
 					</a>
 				</p>

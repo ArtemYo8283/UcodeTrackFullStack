@@ -24,6 +24,19 @@
 	text-decoration: none;
 }
 
+.itemP {
+    color: white;
+    background-color: #5aca3e;
+    font-size: 18px;
+	font-family: AlpaRenote;
+	letter-spacing: 0.02in;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 14px 40px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
 .item {
     color: white;
     background-color: transparent;
@@ -44,3 +57,6 @@
     background-color: #992c33;
 }
 
+.itemP:hover {
+    background-color: #469d30;
+}

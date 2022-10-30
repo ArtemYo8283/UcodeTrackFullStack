@@ -118,6 +118,16 @@ class CommentController {
             next(err);
         }
     }
+
+    async count_by_id(req, res, next) {
+        try {
+            var post_id = req.params.post_id;
+            const result = await Comment.count_by_id(post_id);
+            res.json({idPost:post_id, countComment: result});
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new CommentController();

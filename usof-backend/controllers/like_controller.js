@@ -149,6 +149,16 @@ class LikeController {
             next(err);
         }
     }
+
+    async count_by_id(req, res, next) {
+        try {
+            var post_id = req.params.post_id;
+            const result = await Like.count_by_id(post_id);
+            res.json({idPost: post_id, countLike: result});
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new LikeController();

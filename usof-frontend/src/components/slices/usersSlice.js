@@ -10,14 +10,12 @@ import routes from '../../routes.js';
 export const fetchUserInfo = createAsyncThunk(
 	'users/getUserById',
 	async ({id, token}) => {
-		
 		const response = await axios.get(routes.getUserById(id, token));
 		return response.data;
 	}
 );
 
 export const fetchUsers = createAsyncThunk('users/getAllUsers', async (token) => {
-	
 	const response = await axios.get(routes.getAllUsers(token));
 	return response.data;
 });
@@ -43,7 +41,7 @@ const usersSlice = createSlice({
 		})
 		.addCase(fetchUserInfo.fulfilled, (state, { payload }) => {
 			state.isLogin = false;
-			state.entities[payload.id] = payload;
+			state.entities[payload[0].id] = payload[0];
 		})
 		.addCase(fetchUserInfo.rejected, (state, { payload }) => {
 			state.isLogin = false;
@@ -53,7 +51,7 @@ const usersSlice = createSlice({
 			payload.map((user) => (state.entities[user.id] = user));
 		});
 	},
-});
+}); 
 
 export const { actions } = usersSlice;
 export const userSelectors = usersAdapter.getSelectors((state) => state.users);

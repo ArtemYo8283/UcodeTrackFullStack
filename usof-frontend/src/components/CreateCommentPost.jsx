@@ -5,97 +5,97 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import routes from '../routes.js';
 import axios from 'axios';
-import uniqueId from 'lodash/uniqueId.js';
 import { actions } from './slices/commentSlice.js';
 
 const validationComment = yup.object({
-  content: yup.string().required("comment can't be empty").trim(),
+  	content: yup.string().required("comment can't be empty").trim(),
 });
 
-const CreateCommentPost = ({ postId }) => {
-  const dispatch = useDispatch();
-  const { currentUser, token } = JSON.parse(
-    localStorage.getItem('currentUser')
-  );
-  const inputRef = useRef();
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-  const formik = useFormik({
-    initialValues: {
-      content: '',
-    },
-    validationSchema: validationComment,
-    validateOnChange: false,
-    validateOnBlur: false,
-    onSubmit: async (values) => {
-      try {
-        const response = await axios.post(
-          routes.createPostcomment(postId, token),
-          { comment: values.content }
-        );
-        toast.info(response.data.massage);
-        const publish_date = new Date();
-        const author_id = currentUser.id;
-        const post_id = postId;
-        console.log();
-        dispatch(
-          actions.addComment({
-            id: response.data.id_comment.id,
-            post_id,
-            author_id,
-            ...values,
-            publish_date,
-          })
-        );
-        formik.values.content = '';
-      } catch (err) {
-        if (err.isAxiosError) {
-          const responseErrors = err.response.data.message;
-          toast.error(responseErrors);
-          return;
-        }
-        throw err;
-      }
-    },
-  });
+export default function CreateCommentPost ({ postId }) {
 
-  return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="mt-1">
-          <div className="flex items-center justify-between">
-            <label htmlFor="content" className="text-lg font-medium">
-              Add a comment:
-            </label>
-            <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-              {formik.errors.content ? formik.errors.content : null}
-            </span>
-          </div>
-          <textarea
-            id="content"
-            style={{ height: '80px' }}
-            className={`w-full text-sm border border-orange-200 ${
-              formik.errors.content ? 'border-rose-500' : null
-            } h-60`}
-            name="content"
-            type="text"
-            placeholder="Enter comment"
-            onChange={formik.handleChange}
-            value={formik.values.content}
-          />
-        </div>
-        <div className="my-4 text-center">
-          <button
-            className="flex border items-center justify-center bg-orange-500 text-white font-bold p-2 rounded ease-in duration-300 hover:border-orange-600 hover:bg-white hover:text-orange-600"
-            type="submit"
-          >
-            {'Post comment'}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+	const dispatch = useDispatch();
+	const { currentUser, token } = JSON.parse(
+		localStorage.getItem('currentUser')
+	);
+
+	const inputRef = useRef();
+	const [isEdite, setEdite] = useState(false);
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, []);
+
+	const formik = useFormik({
+		initialValues: {
+			content: '',
+		},
+		validationSchema: validationComment,
+		validateOnChange: false,
+		validateOnBlur: false,
+		onSubmit: async (values) => {
+		try {
+			console.log(values.content)
+			const response = await axios.post(
+				routes.createPostcomment(postId, token),
+				{ content: values.content }
+			);
+			toast.info(response.data.massage);
+			const publish_date = new Date();
+			const author_id = currentUser.id;
+			const post_id = postId;
+			console.log();
+			dispatch(
+				actions.addComment({
+					id: response.data.id_comment.id,
+					post_id,
+					author_id,
+					...values,
+					publish_date,
+				})
+			);
+			formik.values.content = '';
+		} catch (err) {
+			if (err.isAxiosError) {
+				const responseErrors = err.response.data.message;
+				toast.error(responseErrors);
+				return;
+			}
+			throw err;
+		}
+		},
+		onChange: async () => {
+			
+		}
+	});
+
+	return (
+		<form onSubmit={formik.handleSubmit} className="CreateCommentPostForm">
+			<div>
+				<div>
+					<label htmlFor="content">
+						Add a comment:
+					</label>
+				</div>
+				<textarea
+					id="content"
+					className='CommentInput'
+					name="content"
+					type="text"
+					placeholder="Enter comment"
+					onClick={(e) => setEdite(true)}
+					onChange={formik.handleChange}
+					value={formik.values.content}
+					required
+				/>
+			</div>
+			{isEdite ? (
+				<div className="CommentBtnBlock">
+					<button className="PostComment_btn" type="submit">
+						Comment
+					</button>
+				</div>
+				) : null
+			}
+		</form>
+	);
 };
 
-export default CreateCommentPost;

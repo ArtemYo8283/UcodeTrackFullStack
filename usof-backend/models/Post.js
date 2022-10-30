@@ -85,7 +85,7 @@ class Post
 	async select_category_by_id(id)
 	{
         try {
-            const [row] = await dbConnection.execute("SELECT title FROM category INNER JOIN postcategory ON category.id = postcategory.idCategory WHERE idPost = " + id);
+            const [row] = await dbConnection.execute("SELECT * FROM category INNER JOIN postcategory ON category.id = postcategory.idCategory WHERE idPost = " + id);
 			const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

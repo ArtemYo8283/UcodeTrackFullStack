@@ -30,10 +30,10 @@ export default function EmailConfirm() {
                 <h1>
                     {validToken ? 'Invalid token' : isFailed ? 'The mail has already been confirmed' : 'Сonfirmed'}
                 </h1>
-                <div className="flex justify-center flex-wrap -m-4">
-                    <div className="p-4 md:w-1/2 w-full">
-                        <div className="h-full bg-gray-100 p-8 rounded">
-                            <p className="leading-relaxed mb-6">
+                <div>
+                    <div>
+                        <div>
+                            <p>
                             {validToken
                                 ? 'The token has expired, please register again'
                                 : isFailed

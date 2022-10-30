@@ -12,7 +12,7 @@ class User {
 				sql = "SELECT * FROM `user`";
 			}
 			else {
-				sql = "SELECT `id`, `login`, `full_name`,`email`,`profile_pic`,`rating` FROM `user`";
+				sql = "SELECT `user`.`id`, `user`.`login`, `user`.`full_name`, `user`.`email`, `user`.`profile_pic`, `user`.`rating`, `role`.title FROM `user`, `role` WHERE `role`.id = `user`.role_id";
 			}
             const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
@@ -40,8 +40,8 @@ class User {
 			if(user_role == "admin") {
 				sql = "SELECT * FROM `user` WHERE id = " + id;
 			}
-			else if(user_role == "user") {
-				sql = "SELECT `id`, `login`, `full_name`,`email`,`profile_pic`,`rating` FROM `user` WHERE id = " + id;
+			else {
+				sql = "SELECT `user`.`id`, `user`.`login`, `user`.`full_name`, `user`.`email`, `user`.`profile_pic`, `user`.`rating`, `role`.title FROM `user`, `role` WHERE `role`.id = `user`.role_id AND `user`.`id` = " + id;
 			}
 			const [row] = await dbConnection.execute(sql);
             const jsonContent = JSON.stringify(row);
