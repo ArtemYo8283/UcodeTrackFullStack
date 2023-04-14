@@ -1,43 +1,48 @@
 {
-  "name": "server",
+  "name": "uevent",
   "version": "1.0.0",
-  "description": "uevent project",
-  "main": "index.js",
+  "description": "UEvent project innovation campus",
   "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kshvydkyi/uevent.git"
+    "url": "git+https://github.com/kshvydkyi/UEvent.git"
   },
   "keywords": [
-    "uevent",
-    "nodeJS",
-    "express"
+    "Events",
+    "Ucode",
+    "Anonymous",
+    "aboba"
   ],
-  "author": "kshvydkyi abondar",
+  "author": "Kshvydkyi Ddubinin Abondar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kshvydkyi/uevent/issues"
+    "url": "https://github.com/kshvydkyi/UEvent/issues"
   },
-  "homepage": "https://github.com/kshvydkyi/uevent#readme",
+  "homepage": "https://github.com/kshvydkyi/UEvent#readme",
   "dependencies": {
-    "@google-cloud/local-auth": "^2.1.0",
+    "@google/maps": "^1.1.3",
     "body-parser": "^1.20.1",
-    "check-password-strength": "^2.0.7",
     "cors": "^2.8.5",
-    "email-deep-validator": "^3.3.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-router": "^0.0.1",
+    "express-validator": "^6.14.3",
     "fs": "^0.0.1-security",
-    "googleapis": "^105.0.0",
+    "html-pdf-node": "^1.0.6",
     "js-date-to-sql-datetime": "^1.2.7",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "multer": "^1.4.5-lts.1",
-    "mysql2": "^2.3.3",
-    "nodemailer": "^6.8.0",
-    "nodemon": "^2.0.20"
+    "mysql2": "^3.1.2",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.20",
+    "pdfkit": "^0.13.0",
+    "qrcode": "^1.5.1",
+    "stripe": "^11.13.0",
+    "uuid": "^9.0.0"
   }
 }

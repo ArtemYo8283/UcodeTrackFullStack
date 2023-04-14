@@ -1,3 +1,4 @@
+-- SQLBook: Code
 CREATE DATABASE  IF NOT EXISTS `uevent` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `uevent`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
@@ -34,7 +35,7 @@ CREATE TABLE `comments` (
   KEY `Comments_fk0` (`author_id`),
   KEY `Comments_fk1` (`event_id`),
   CONSTRAINT `Comments_fk0` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `Comments_fk1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+  CONSTRAINT `Comments_fk1` FOREIGN KEY (`event_id`) REFERENCES `events_item` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,17 +82,16 @@ DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
-  `description` text,
-  `dateof` datetime NOT NULL,
-  `location` text NOT NULL,
-  `price` float NOT NULL,
-  `places` int NOT NULL,
-  `format_id` int NOT NULL,
-  `userlist_public` tinyint(1) NOT NULL DEFAULT '0',
+  `description` text NOT NULL,
   `event_pic` varchar(255) NOT NULL DEFAULT 'default_event.png',
+  `company_id` int NOT NULL,
+  `format_id` int NOT NULL,
+  `dateStart` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Events_fk0` (`format_id`),
-  CONSTRAINT `Events_fk0` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`)
+  KEY `Events_fk0` (`company_id`),
+  KEY `Events_fk1` (`format_id`),
+  CONSTRAINT `Events_fk0` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
+  CONSTRAINT `Events_fk1` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -102,6 +102,48 @@ CREATE TABLE `events` (
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `events_item`
+--
+
+DROP TABLE IF EXISTS `events_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `events_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `dateStart` datetime NOT NULL,
+  `dateEnd` datetime NOT NULL,
+  `location` text NOT NULL,
+  `price` float NOT NULL,
+  `places` int NOT NULL,
+  `format_id` int NOT NULL,
+  `userlist_public` tinyint(1) NOT NULL DEFAULT '0',
+  `event_pic` varchar(255) NOT NULL DEFAULT 'default_event_item.png',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `event_id` int NOT NULL,
+  `company_id` int NOT NULL,
+  `count` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Events_item_fk0` (`format_id`),
+  KEY `Events_item_fk1` (`event_id`),
+  KEY `Events_item_fk2` (`company_id`),
+  CONSTRAINT `Events_item_fk0` FOREIGN KEY (`format_id`) REFERENCES `formats` (`id`),
+  CONSTRAINT `Events_item_fk1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  CONSTRAINT `Events_item_fk2` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `events_item`
+--
+
+LOCK TABLES `events_item` WRITE;
+/*!40000 ALTER TABLE `events_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `events_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -140,12 +182,15 @@ CREATE TABLE `promocodes` (
   `discount` int NOT NULL,
   `company_id` int DEFAULT '-1',
   `event_id` int DEFAULT '-1',
+  `expiresAt` datetime NOT NULL,
+  `used` tinyint(1) NOT NULL DEFAULT '0',
+  `count` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   KEY `promocodes_fk0` (`company_id`),
   KEY `promocodes_fk1` (`event_id`),
   CONSTRAINT `promocodes_fk0` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
-  CONSTRAINT `promocodes_fk1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+  CONSTRAINT `promocodes_fk1` FOREIGN KEY (`event_id`) REFERENCES `events_item` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -233,6 +278,34 @@ LOCK TABLES `themes_events` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `themes_events_item`
+--
+
+DROP TABLE IF EXISTS `themes_events_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `themes_events_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `theme_id` int NOT NULL,
+  `event_item_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `themes_events_item_fk0` (`theme_id`),
+  KEY `themes_events_item_fk1` (`event_item_id`),
+  CONSTRAINT `themes_events_item_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`),
+  CONSTRAINT `themes_events_item_fk1` FOREIGN KEY (`event_item_id`) REFERENCES `events_item` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `themes_events_item`
+--
+
+LOCK TABLES `themes_events_item` WRITE;
+/*!40000 ALTER TABLE `themes_events_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `themes_events_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tickets`
 --
 
@@ -249,7 +322,7 @@ CREATE TABLE `tickets` (
   KEY `Tickets_fk0` (`user_id`),
   KEY `Tickets_fk1` (`event_id`),
   CONSTRAINT `Tickets_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `Tickets_fk1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+  CONSTRAINT `Tickets_fk1` FOREIGN KEY (`event_id`) REFERENCES `events_item` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -277,6 +350,7 @@ CREATE TABLE `users` (
   `email` text NOT NULL,
   `profile_pic` varchar(255) NOT NULL DEFAULT 'default_user.png',
   `role_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Users_fk0` (`role_id`),
   CONSTRAINT `Users_fk0` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
@@ -301,4 +375,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-16 13:33:09
+-- Dump completed on 2023-02-20 13:14:09

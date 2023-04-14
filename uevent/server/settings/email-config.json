@@ -1,9 +1,0 @@
-{
-    "host": "smtp.gmail.com",
-    "port": 587,
-    "auth": {
-        "user": "lkek8014@gmail.com",
-        "pass": "nczotdkawxpabhhm"
-    }
-}
-
