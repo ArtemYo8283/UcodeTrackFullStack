@@ -1,0 +1,183 @@
+.App {
+  text-align: center;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  /* background-color: #000000; */
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+.AppDiv {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+footer {
+  width: 100%;
+  height: 40px;
+  flex: 0 0 auto;
+}
+main {
+  flex: 1 0 auto;
+}
+#root {
+  height: 100%;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.wrapper-navbar {
+  height: 70px;
+  width: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+header {
+  background-color: #131313;
+}
+
+@media (max-width: 900px) {
+  header {
+    padding-left: 0;
+  }
+}
+.dsd{
+  color: #081e34;
+}
+.tui-image-editor-header-logo{
+  opacity: 0 !important;
+}
+.sample-canvas{
+  width: 700px !important;
+  height: 400px !important;
+}
+.draw-color-picker-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+}
+/*------ Style 1 ------*/
+.draw-color-picker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.draw-color-picker::-webkit-color-swatch {
+  border-radius: 5px;
+  border: none;
+}
+.draw-color-picker::-moz-color-swatch {
+  border-radius: 5px;
+  border: none;
+}
+.drawFlex{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px;
+
+}
+.selectdiv {
+  position: relative;
+  /*Don't really need this just for demo styling*/
+  
+  float: left;
+  min-width: 200px;
+  /* margin: 50px 33%; */
+}
+
+/* IE11 hide native button (thanks Matt!) */
+select::-ms-expand {
+display: none;
+}
+
+.selectdiv:after {
+  content: '<>';
+  font: 17px "Consolas", monospace;
+  color: #333;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  right: 11px;
+  /*Adjust for position however you want*/
+  
+  top: 18px;
+  padding: 0 0 2px;
+  border-bottom: 1px solid #999;
+  /*left line */
+  
+  position: absolute;
+  pointer-events: none;
+}
+
+.selectdiv select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add some styling */
+  
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: 50px;
+  float: right;
+  margin: 5px 0px;
+  padding: 0px 24px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  -ms-word-break: normal;
+  word-break: normal;
+}
+.free-draw-controls{
+  width: 100%;
+}
+.drawing-options{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
